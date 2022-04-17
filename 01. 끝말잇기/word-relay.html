@@ -8,13 +8,18 @@
 </head>
 
 <body>
-    <div><span id="order">1</span>번째 참가자</div>3
-    <div>제시어 : <span id="word"></span></div>33
+    <div><span id="order">1</span>번째 참가자</div>
+    <div>제시어 : <span id="word"></span></div>
     <input type="text">
     <button>입력</button>
     <script>
         const number = parseInt(prompt('몇 명이 참가하나요?'), 10);
-        const yesOrNo = confirm('확인이나 취소를 눌러보세요.');
+        alert(number);
+        const yesOrNo = confirm('맞나요?');
+
+        // HTML 태그 선택하기
+        // # 을 앞에 붙이면 id 를 찾는다.
+        document.querySelector('#word');
     </script>
 </body>
 </html>
