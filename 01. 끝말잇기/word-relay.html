@@ -19,7 +19,24 @@
 
         // HTML 태그 선택하기
         // # 을 앞에 붙이면 id 를 찾는다.
-        document.querySelector('#word');
+        // . 은 class 를 찾는다.
+        // "div span" 공백을 붙여주면 div 안의 자손(후손까지 전부다) 태그를 찾는다.
+        // "div>span" > 을 사용하면 자식 태그만 찾는다.
+        // document.querySelector('input')
+
+        const onInput = (hello) => {
+            console.log('글자 입력', hello.target.value);
+        };
+        
+        document.querySelector('input').addEventListener('input', (event) => {
+            console.log('글자 입력', event.target.value);
+        });
+
+        const onClick = function() {
+            console.log('버튼 클릭');
+        };
+
+        document.querySelector('button').addEventListener('click', onClick);
     </script>
 </body>
 </html>
