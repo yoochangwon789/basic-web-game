@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,7 +30,7 @@
                 $word.textContent = word;
                 $input.value = '';
                 const order = Number($order.textContent); // 현재 순서
-                
+
                 if (order + 1 > number) {
                     $order.textContent = 1;
                 } else {
@@ -42,16 +43,17 @@
                     word = newWord;
                     $word.textContent = word;
                     $input.value = '';
+
+                    const order = Number($order.textContent); // 현재 순서
+
+                    if (order + 1 > number) {
+                        $order.textContent = 1;
+                    } else {
+                        $order.textContent = order + 1;
+                    }
                 } else {
                     // 올바르지 않은가
-                }
-                
-                const order = Number($order.textContent); // 현재 순서
-                
-                if (order + 1 > number) {
-                    $order.textContent = 1;
-                } else {
-                    $order.textContent = order + 1;
+                    alert('올바르지 않은 단어입니다.');
                 }
             }
         };
@@ -63,4 +65,5 @@
         $input.addEventListener('input', onInput);
     </script>
 </body>
+
 </html>
