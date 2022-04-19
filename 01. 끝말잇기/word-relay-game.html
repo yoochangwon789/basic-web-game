@@ -18,6 +18,9 @@
         let $number = Number(prompt('몇 명이 참가하나요?'));
         const $input = document.querySelector('input');
         const $button = document.querySelector('button');
+        const $word = document.querySelector('#word');
+        let word;
+        let newWord;
 
         // 참가 인원이 2명 이상이 아닐 때 예외처리
         if ($number === 0 || $number === 1) {
@@ -28,6 +31,31 @@
                 if ($number >= 2) break;
             }
         }
+
+        const onClick = () => {
+            if (!word) {
+                word = newWord;
+                $word.textContent = word;
+            } else {
+                if (word[word.length - 1] === newWord[0]) {
+                    word = newWord;
+                    $word.textContent = word;
+                } else {
+                    alert('단어가 일치하지 않습니다.');
+                }
+            }
+
+            $input.value = '';
+            $input.focus();
+        }
+
+        const onInput = (event) => {
+            newWord = event.target.value;
+        }
+
+        $input.addEventListener('input', onInput);
+        $button.addEventListener('click', onClick);
+
     </script>
 </body>
 
