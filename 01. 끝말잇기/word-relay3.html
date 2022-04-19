@@ -35,8 +35,12 @@
                 } else {
                     $order.textContent = order + 1;
                 }
+
+                $input.value = '';
+                $input.focus();
             } else {
                 if (word[word.length - 1] === newWord[0]) {
+                    word = newWord;
                     $word.textContent = newWord;
 
                     const order = Number($order.textContent);
@@ -48,6 +52,9 @@
                 } else {
                     alert('일치하지 않습니다.');
                 }
+
+                $input.value = '';
+                $input.focus();
             }
         }
 
