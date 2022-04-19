@@ -34,19 +34,8 @@
         }
 
         const onClick = () => {
-            if (!word) {
-                word = newWord;
-                $word.textContent = word;
-
-                const orderNumber = Number($order.textContent);
-
-                if (orderNumber + 1 > $number) {
-                    $order.textContent = 1;
-                } else {
-                    $order.textContent = orderNumber + 1;
-                }
-            } else {
-                if (word[word.length - 1] === newWord[0]) {
+            if (newWord.length === 3) {
+                if (!word || word[word.length - 1] === newWord[0]) {
                     word = newWord;
                     $word.textContent = word;
 
@@ -58,8 +47,10 @@
                         $order.textContent = orderNumber + 1;
                     }
                 } else {
-                    alert('단어가 일치하지 않습니다.');
+                    alert('단어가 일치하지 않거나 단어는 3글자이어야 합니다.');
                 }
+            } else {
+                alert('단어는 3글자 이어야 합니다.');
             }
 
             $input.value = '';
@@ -68,6 +59,7 @@
 
         const onInput = (event) => {
             newWord = event.target.value;
+            console.log(newWord.length);
         }
 
         $input.addEventListener('input', onInput);
