@@ -19,6 +19,7 @@
         const $input = document.querySelector('input');
         const $button = document.querySelector('button');
         const $word = document.querySelector('#word');
+        const $order = document.querySelector('#order');
         let word;
         let newWord;
 
@@ -36,10 +37,26 @@
             if (!word) {
                 word = newWord;
                 $word.textContent = word;
+
+                const orderNumber = Number($order.textContent);
+
+                if (orderNumber + 1 > $number) {
+                    $order.textContent = 1;
+                } else {
+                    $order.textContent = orderNumber + 1;
+                }
             } else {
                 if (word[word.length - 1] === newWord[0]) {
                     word = newWord;
                     $word.textContent = word;
+
+                    const orderNumber = Number($order.textContent);
+
+                    if (orderNumber + 1 > $number) {
+                        $order.textContent = 1;
+                    } else {
+                        $order.textContent = orderNumber + 1;
+                    }
                 } else {
                     alert('단어가 일치하지 않습니다.');
                 }
