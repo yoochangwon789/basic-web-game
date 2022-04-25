@@ -1,0 +1,37 @@
+let a = '';
+if (!a) {
+    console.log('true');
+} else {
+    console.log('false');
+}
+
+// 고차함수
+// 함수를 선언하고 그 함수의 return 값을 함수로 리턴하는 방식
+const func = (msg) => {
+    return () => {
+        console.log(msg);
+    };
+};
+
+// 중괄호와 return 생략 가능
+const func2 = (msg) => () => {
+    console.log(msg);
+};
+
+const innerFunc1 = func('hello');
+const innerFunc2 = func('js');
+const innerFunc3 = func2();
+
+innerFunc1();
+innerFunc2();
+innerFunc3();
+
+const hof = (a) => (b) => (c) => {
+    return a + (b * c);
+};
+
+const first = hof2(3);
+const second = first(4);
+const third = second(5);
+
+console.log(third);
