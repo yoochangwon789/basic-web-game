@@ -1,4 +1,4 @@
-let a1 = '';
+let a1 = '1';
 if (a1) {
     console.log('true');
 } else {
