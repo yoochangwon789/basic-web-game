@@ -65,3 +65,13 @@ function testResult() {
     result += 'b';
     return result;
 }
+
+let isNan = isNaN('dsafdas');
+if (isNan) {
+    console.log('if');
+} else {
+    console.log('else');
+}
+
+let test = '1234';
+console.log(test.indexOf(4));
