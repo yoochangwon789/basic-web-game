@@ -55,3 +55,6 @@ Array(9).fill(0);
 Array(9).fill(0).map((element, index) => {
     return index + 1;
 });
+console.log(Array(9).fill(0).map((element, index) => {
+    return index + 1;
+}));
