@@ -31,7 +31,75 @@
             numbers.splice(index, 1);
         }
 
-        
+        console.log(answer);
+
+        const tries = [];
+        function answerCheck(input) {
+            if (input.length !== 4) {
+                return alert('4자리 숫자를 입력해주세요.');
+            }
+            if (new Set(input).size !== 4) {
+                return alert('중복된 숫자는 입력할 수 없습니다.');
+            }
+            if (tries.includes(input)) {
+                return alert('이미 시도한 값입니다.');
+            }
+            return true;
+        }
+
+        let out = 0;
+
+        $form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const value = $input.value;
+            $input.value = '';
+
+            function defeated() {
+                $logs.append(`패배! 정답은 ${answer.join('')} 입니다.`);
+            }
+
+            if (!answerCheck(value)) {
+                return;
+            }
+
+            if (answer.join('') === value) {
+                $logs.textContent = '홈런!';
+                return;
+            }
+
+            if (tries.length >= 9) {
+                defeated();
+                return;
+            }
+
+            let strike = 0;
+            let ball = 0;
+            answer.forEach((element, i) => {
+                const index = value.indexOf(element);
+                if (index > -1) {
+                    if (index === i) {
+                        strike++;
+                    } else {
+                        ball++;
+                    }
+                }
+            });
+            
+            if (strike === 0 && ball === 0) {
+                out++;
+                $logs.append(`${value} : ${out} 아웃!`, document.createElement('br'));
+
+                if (out === 3) {
+                    $logs.append(`3아웃! 패배했습니다..ㅜㅜ`);
+                    return;
+                }
+            } else {
+                $logs.append(`${value} : ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+            }
+
+            tries.push(value);
+        });
     </script>
 </body>
 
