@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또 추첨기</title>
+
+    <style>
+        .ball {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 1px solid black;
+            border-radius: 20px;
+            line-height: 40px;
+            font-size: 20px;
+            text-align: center;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="result">추첨 결과는? </div>
+    <div id="bonus">보너스 : </div>
+
+    <script>
+        const candiate = Array(45).fill().map((element, index) => index + 1);
+        const shuffle = [];
+
+        while (candiate.length > 0) {
+            const random = Math.floor(Math.random() * candiate.length);
+            const spliceArray = candiate.splice(random, 1);
+            const value = spliceArray[0];
+            shuffle.push(value);
+        }
+
+        console.log(shuffle);
+
+        const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b);
+        const bonus = shuffle[6];
+        console.log(winBalls, bonus);
+
+        const $result = document.querySelector('#result');
+        const $bonus = document.querySelector('#bonus');
+
+        const showBall = (number, $target) => {
+            const $ball = document.createElement('div');
+                $ball.className = 'ball';
+                $ball.textContent = number;
+                $target.append($ball);
+        };
+
+        for (let i = 0; i < winBalls.length; i++) {
+            setTimeout(() => {
+                showBall(winBalls[i], $result);
+            }, 1000 * (i + 1));
+        }
+
+        setTimeout(() => {
+            showBall(bonus, $bonus);
+        }, 7000);
+    </script>
+</body>
+
+</html>
