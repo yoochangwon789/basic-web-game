@@ -31,6 +31,14 @@
         #bonus {
             margin-top: 20px;
         }
+
+        #rank {
+            margin-top: 50px;
+            margin-left: 30px;
+            font-size: 50px;
+            margin-top: 30px;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -51,16 +59,19 @@
             <button>추첨시작!!</button>
             <div id="result_number">결과 번호 : </div>
             <div id="bonus">보너스 번호 : </div>
+            <div id="rank">당첨결과</div>
         </form>
     </div>
+
     <script>
         const $form = document.querySelector('#form_user');
         const $userInputNumber = document.querySelector('#user_number');
         const $resultUserNumber = document.querySelector('#result_user_number');
 
         const $formResult = document.querySelector('#form_result');
-        const $resutNumber = document.querySelector('#result_number');
+        const $resultNumber = document.querySelector('#result_number');
         const $bonus = document.querySelector('#bonus');
+        const $rank = document.querySelector('#rank');
 
         function colorize(number, $target) {
             if (number < 10) {
@@ -89,7 +100,7 @@
 
         let userNumberArray = [];
         function numberCheck(number) {
-            if (number > 45 || number < 0) {
+            if (number > 45 || number <= 0) {
                 return alert('1 부터 45 까지의 숫자만 입력해주세요.');
             } else if (userNumberArray.includes(number)) {
                 return alert('중복된 값은 넣을 수 없습니다.');
@@ -126,13 +137,14 @@
             console.log(bonusCkeck);
             console.log(bonus);
 
-            resultLottoNumbers(lottoNumbers, bonus)
+            resultLottoNumbers(lottoNumbers, bonus);
+            resultRank(userNumberArray, lottoNumbers, bonus);
         }
 
         function resultLottoNumbers(lottoNumbers, bonus) {
             lottoNumbers.forEach((value, index) => {
                 setTimeout(() => {
-                    showBall(value, $resutNumber);
+                    showBall(value, $resultNumber);
                 }, 1000 * (index + 1))
             });
 
@@ -141,6 +153,36 @@
             }, 7000);
         }
 
+        function resultRank(userNumberArray, lottoNumbers, bonus) {
+            let rankCheck = 0;
+            let bonusCheck = 0;
+            for (let i = 0; i < userNumberArray.length; i++) {
+                for (let j = 0; j < userNumberArray.length; j++) {
+                    if (userNumberArray[i] === lottoNumbers[j]) rankCheck++;
+                }
+                if (userNumberArray[i] === bonus) bonusCheck++;
+            }
+            console.log('rankCheck : ' + rankCheck);
+            console.log('bonusCheck : ' + bonusCheck);
+
+            if (rankCheck === 6) {
+                $rank.style.color = 'yellow';
+                setTimeout(() => { $rank.textContent = '1등 !!! 축하합니다.' }, 9000);
+            } else if (rankCheck === 5 && bonusCheck === 1) {
+                $rank.style.color = 'red';
+                setTimeout(() => { $rank.textContent = '2등 !!! 축하합니다.' }, 9000);
+            } else if (rankCheck === 5 && bonusCheck === 0) {
+                $rank.style.color = 'green';
+                setTimeout(() => { $rank.textContent = '3등 !!! 축하합니다.' }, 9000);
+            } else if (rankCheck === 4 && bonusCheck === 0) {
+                setTimeout(() => { $rank.textContent = '4등 !!! 축하합니다.' }, 9000);
+            } else if (rankCheck === 3 && bonusCheck === 0) {
+                setTimeout(() => { $rank.textContent = '5등 !!! 축하합니다.' }, 9000);
+            } else {
+                setTimeout(() => { $rank.textContent = '꽝...' }, 9000);
+            }
+        }
+        
         $form.addEventListener('submit', (event) => {
             event.preventDefault();
             const value = Number($userInputNumber.value);
