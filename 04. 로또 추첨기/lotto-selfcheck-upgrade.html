@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또 추첨기</title>
+
+    <style>
+        .ball {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 1px solid black;
+            border-radius: 20px;
+            line-height: 35px;
+            text-align: center;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .user_lotto {
+            margin-bottom: 30px;
+        }
+
+        #result_user_number {
+            margin-top: 20px;
+        }
+
+        #bonus {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="user_lotto">
+        <form id="form_user">
+            <div>
+                번호 입력 : <input type="text" id="user_number">
+                <button>입력</button>
+            </div>
+        </form>
+
+        <div id="result_user_number">사용자 번호 : </div>
+    </div>
+
+    <div>
+        <div id="result_number">결과 번호 : </div>
+        <div id="bonus">보너스 번호 : </div>
+    </div?>
+    <script>
+        const $form = document.querySelector('#form_user');
+        const $userInputNumber = document.querySelector('#user_number');
+        const $resultUserNumber = document.querySelector('#result_user_number');
+
+        let userNumberArray = [];
+
+        function colorize(number, $target) {
+            if (number < 10) {
+                $target.style.backgroundColor = 'red';
+                $target.style.color = 'white';
+            } else if (number < 20) {
+                $target.style.backgroundColor = 'orange';
+            } else if (number < 30) {
+                $target.style.backgroundColor = 'yellow';
+            } else if (number < 40) {
+                $target.style.backgroundColor = 'blue';
+                $target.style.color = 'white';
+            } else {
+                $target.style.backgroundColor = 'green';
+                $target.style.color = 'white';
+            }
+        }
+
+        function showBall(number, $target) {
+            const $ball = document.createElement('div');
+            $ball.className = 'ball';
+            colorize(number, $ball);
+            $ball.textContent = number;
+            $target.append($ball);
+        }
+
+        function numberCheck(number) {
+            if (number > 45 || number < 0) {
+                return alert('1 부터 45 까지의 숫자만 입력해주세요.');
+            } else if (userNumberArray.includes(number)) {
+                return alert('중복된 값은 넣을 수 없습니다.');
+            } else if (userNumberArray.length > 5) {
+                return alert('더이상 숫자를 입력할 수 없습니다.');
+            } else {
+                userNumberArray.push(number);
+                showBall(number, $resultUserNumber);
+            }
+
+            if (userNumberArray.length === 6) {
+                $resultUserNumber.textContent = '사용자 번호 : ';
+                userNumberArray.sort((a, b) => a - b);
+                userNumberArray.forEach((value, index) => {
+                    showBall(value, $resultUserNumber);
+                });
+            }
+        }
+
+
+
+        $form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const value = Number($userInputNumber.value);
+            $userInputNumber.value = '';
+
+            numberCheck(value);
+        });
+    </script>
+</body>
+
+</html>
