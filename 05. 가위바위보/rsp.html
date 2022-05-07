@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가위바위보</title>
+
+    <style>
+        #computer {
+            width: 142px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="computer"></div>
+    <div>
+        <button id="scissors" class="btn">가위</button>
+        <button id="rock" class="btn">바위</button>
+        <button id="paper" class="btn">보</button>
+    </div>
+    <div id="score">0</div>
+
+    <script>
+        // 바위 -227 x
+        // 보 -441 x
+        const $computer = document.querySelector('#computer');
+        const $score = document.querySelector('#score');
+        const $rock = document.querySelector('#rock');
+        const $scissors = document.querySelector('#scissors');
+        const $paper = document.querySelector('#paper');
+        const IMG_URL = './rsp_img.png'
+        // img url 의 0, 0 표시는 백그라운드 가로 세로 위치 조정
+        $computer.style.background = `url(${IMG_URL}) 0 0`;
+        // auto 로 지정하면 200px 의 기준으로 자동으로 비율을 맞춰준다.
+        $computer.style.backgroundSize = 'auto 200px';
+
+        const rspX = {
+            scissors: '0',
+            rock: '-227px',
+            paper: '-441px',
+        };
+
+        let computerChoice = 'scissors'
+        const changeComputerHand = () => {
+            if (computerChoice === 'scissors') {
+                computerChoice = 'rock';
+            } else if (computerChoice === 'rock') {
+                computerChoice = 'paper';
+            } else if (computerChoice === 'paper') {
+                computerChoice = 'scissors';
+            }
+
+            $computer.style.background = `url(${IMG_URL}) ${rspX[computerChoice]} 0`;
+            $computer.style.backgroundSize = 'auto 200px';
+        };
+
+        let intervalId = setInterval(changeComputerHand, 50);
+
+        let clickable = true;
+        const clickButton = () => {
+            if (clickable) {
+                clearInterval(intervalId);
+                clickable = false;
+                // 점수 계산 및 화면 표시
+                setTimeout(() => {
+                    clickable = true;
+                    intervalId = setInterval(changeComputerHand, 50);
+                }, 1000);
+            }
+        }
+
+        $rock.addEventListener('click', clickButton);
+        $scissors.addEventListener('click', clickButton);
+        $paper.addEventListener('click', clickButton);
+    </script>
+</body>
+
+</html>
