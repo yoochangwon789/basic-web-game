@@ -44,6 +44,12 @@
             paper: '-441px',
         };
 
+        const scoreTable = {
+            scissors: 1,
+            rock: 0,
+            paper: -1,
+        };
+
         let computerChoice = 'scissors'
         const changeComputerHand = () => {
             if (computerChoice === 'scissors') {
@@ -61,14 +67,35 @@
         let intervalId = setInterval(changeComputerHand, 50);
 
         let clickable = true;
+        let score = 0;
+        let message = '';
         const clickButton = () => {
             if (clickable) {
                 clearInterval(intervalId);
                 clickable = false;
+                
                 // 점수 계산 및 화면 표시
                 // const myChoice = event.target.textContent === '바위' ? 'rock'
                 //     : event.target.textContent === '가위' ? 'scissors' : 'paper';
-                const myChoice = event.target.id;
+                const myChoice = event.target.id === 'rock' ? 'rock'
+                    : event.target.id === 'scissors' ? 'scissors' : 'paper';
+                const myScore = scoreTable[myChoice];
+                const computerScore = scoreTable[computerChoice];
+                const diff = myScore - computerScore;
+
+                if (diff === 0) {
+                    message = '무승부';
+                } else if (diff === 1 || diff === -2) {
+                    // [1, -2].includes.(diff); 위의 조건을 이렇게 표현이 가능
+                    message = '패배';
+                    score--;
+                } else if (diff === -1 || diff === 2) {
+                    message = '승리';
+                    score++;
+                } 
+
+                $score.textContent = `${message} 총 : ${score}점`;
+
                 setTimeout(() => {
                     clickable = true;
                     intervalId = setInterval(changeComputerHand, 50);
