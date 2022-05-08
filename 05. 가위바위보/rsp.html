@@ -66,6 +66,9 @@
                 clearInterval(intervalId);
                 clickable = false;
                 // 점수 계산 및 화면 표시
+                // const myChoice = event.target.textContent === '바위' ? 'rock'
+                //     : event.target.textContent === '가위' ? 'scissors' : 'paper';
+                const myChoice = event.target.id;
                 setTimeout(() => {
                     clickable = true;
                     intervalId = setInterval(changeComputerHand, 50);
