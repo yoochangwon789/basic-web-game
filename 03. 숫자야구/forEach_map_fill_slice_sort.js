@@ -87,3 +87,58 @@ console.log(arrSort);
 const arrSort2 = [5,8,9,3,2,4,1,7,6];
 console.log(arrSort2.slice().sort((a, b) => a - b));
 console.log(arrSort2);
+
+// reduce 함수
+const arrReduce = [1, 2, 3, 4];
+console.log(arrReduce.reduce((a, c) => (a + c), 0));
+// 두번 째 인수는 초기값 자리이다.
+// 초기값은 처음 누적값이 된다. 즉 누적값은 0 이다.
+// (a , c) a 는 누적값 c 는 다음 값
+// 함수의 동작원리는 누적값과 현재값을 더한 값을 반복문이랑 똑같이 반복한다. 곱셈이든 나누기든 빼기든 상관없고
+// 연산식 이든 모든 상관없다. 누적값과 현재값을 반복해서 연산한다.
+// return 값으로는 마지막 누적값이다.
+// a: 0  c: 1
+// a: 1  c: 2
+// a: 3  c: 3
+// a: 6  c: 4
+// a: 10
+// return 10 으로 반환
+
+console.log(arrReduce.reduce((a, c) => (a * c), 0));
+// a: 0  c: 1
+// a: 0  c: 2
+// a: 0  c: 3
+// a: 0  c: 4
+// a: 0
+// return 0 으로 반환  
+
+console.log(arrReduce.reduce((a, c) => (a * c), 1));
+// a: 1  c: 1
+// a: 1  c: 2
+// a: 2  c: 3
+// a: 6  c: 4
+// a: 24
+// return 24 으로 반환  
+
+console.log(arrReduce.reduce((a, c) => (a + c)));
+// 초기값 을 넣지 않는 경우 첫번째 값이 초기값이다.
+// c 는 초기값 다음값부터 반복한다. 3번 반복
+// a: 1  c: 2
+// a: 3  c: 3
+// a: 6  c: 4
+// a: 10
+// return 10 으로 반환  
+
+
+const arrayReduceObject = ['철수', '짱구', '유리', '맹구'].reduce((a, c, i) => { a[i] = c; return a }, {})
+console.log(arrayReduceObject);
+// 배열을 객체로 변환
+// (a, c , i)   a = 누적값  c = 현재값  i = 인덱스
+// 초기값을 {}
+// a[i] = c 먼저 하고 return
+
+// a: {}  c: 철수  i: 0
+// a: {0: 철수}  c: 짱구   i: 1
+// a: {0: 철수, 1: 짱구}  c: 유리   i: 2
+// a: {0: 철수, 1: 짱구, 2: 유리}  c: 맹구   i: 3
+// return a: {0: 철수, 1: 짱구, 2: 유리, 3: 맹구}
