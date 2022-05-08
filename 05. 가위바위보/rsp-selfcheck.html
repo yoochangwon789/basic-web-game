@@ -108,7 +108,7 @@
                     $result.textContent = '승리했습니다!!!'
                 } else if (computer >= 3) {
                     $result.textContent = '패배했습니다!!!'
-                } else if (computer < 3 && user < 3) {
+                } else if (computer < 3 || user < 3) {
                     setTimeout(() => {
                         clickCkeck = true;
                         intervId = setInterval(randomComputerChoice, 50);
