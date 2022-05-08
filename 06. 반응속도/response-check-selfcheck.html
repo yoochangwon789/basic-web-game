@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응속도 구하기</title>
+
+    <style>
+        #screen {
+            width: 300px;
+            height: 200px;
+            text-align: center;
+        }
+
+        #screen.waiting {
+            background-color: aqua;
+        }
+
+        #screen.ready {
+            background-color: red;
+            color: white;
+        }
+
+        #screen.now {
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="screen" class="waiting">클릭해서 시작하세요</div>
+    <div id="result"></div>
+    <div id="max_fast"></div>
+
+    <script>
+        const $screen = document.querySelector('#screen');
+        const $result = document.querySelector('#result');
+        const $maxFast = document.querySelector('#max_fast');
+
+        let timeoutId;
+        let startTime;
+        let endTime;
+        let records = [];
+
+        $screen.addEventListener('click', (event) => {
+            if (event.target.classList.contains('waiting')) {
+                $screen.classList.replace('waiting', 'ready');
+                $screen.textContent = '초록색이 되면 클릭하세요.';
+
+                timeoutId = setTimeout(() => {
+                    startTime = new Date();
+                    $screen.classList.replace('ready', 'now');
+                    $screen.textContent = '지금 클릭하세요!';
+                }, Math.floor(Math.random() * 1000) + 2000);
+            } else if (event.target.classList.contains('ready')) {
+                clearTimeout(timeoutId);
+                $screen.classList.replace('ready', 'waiting');
+                $screen.textContent = '너무 성급하시군요';
+            } else if (event.target.classList.contains('now')) {
+                endTime = new Date();
+            
+                let resultTime = endTime - startTime;
+                records.push(resultTime);
+                let average = records.reduce((a, c) => a + c) / records.length;
+
+                if (records.length >= 5) {
+                    $maxFast.textContent = '';
+                    let maxFast = records.slice().sort((a ,b) => a - b);
+                    for (let i = 0; i < 5; i++) {
+                        $maxFast.append(`${i + 1}등 : ${maxFast[i]}`, document.createElement('br'));
+                    }
+                }
+
+                $screen.classList.replace('now', 'waiting');
+                $screen.textContent = '클릭해서 시작하세요';
+
+                $result.textContent = `반응속도 : ${resultTime}ms   평균 : ${average}ms`;
+            }
+        });
+    </script>
+</body>
+</html>
