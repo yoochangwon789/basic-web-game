@@ -63,9 +63,6 @@
             // 부모 태그의 접근하려면 parentNode 을 사용하면 된다.
             const rowIndexTr = target.parentNode.rowIndex;
 
-            console.log(cellIndexTd)
-            console.log(rowIndexTr)
-            
             rows.forEach((row, ri) => {
                 row.forEach((cell, ci) => {
                     if (cell === target) {
@@ -141,6 +138,8 @@
 
             // 풀이
             let draw = true;
+            // every 함수를 이용한 무승부 결과 체크
+            let draw2 = rows.flat().every((value) => value.textContent);
             rows.forEach((row) => {
                 row.forEach((cell) => {
                     if (!cell.textContent) {
@@ -150,7 +149,7 @@
                 });
             });
 
-            if (draw) {
+            if (draw2) {
                 $result.textContent = `무승부`;
                 return;
             }
