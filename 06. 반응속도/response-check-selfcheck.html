@@ -62,19 +62,29 @@
                 let resultTime = endTime - startTime;
                 records.push(resultTime);
                 let average = records.reduce((a, c) => a + c) / records.length;
-
-                if (records.length >= 5) {
-                    $maxFast.textContent = '';
-                    let maxFast = records.slice().sort((a ,b) => a - b);
-                    for (let i = 0; i < 5; i++) {
-                        $maxFast.append(`${i + 1}등 : ${maxFast[i]}`, document.createElement('br'));
-                    }
-                }
-
-                $screen.classList.replace('now', 'waiting');
-                $screen.textContent = '클릭해서 시작하세요';
+                // 내가 푼 풀이
+                // if (records.length >= 5) {
+                //     $maxFast.textContent = '';
+                //     let maxFast = records.slice().sort((a ,b) => a - b);
+                //     for (let i = 0; i < 5; i++) {
+                //         $maxFast.append(`${i + 1}등 : ${maxFast[i]}`, document.createElement('br'));
+                //     }
+                // }
 
                 $result.textContent = `반응속도 : ${resultTime}ms   평균 : ${average}ms`;
+
+                const topFive = records.sort((a, b) => a - b).slice(0, 5);
+                topFive.forEach((value, index) => {
+                    $result.append(
+                        document.createElement('br'),
+                        `${index + 1}위 : ${value}ms`
+                    );
+                });
+
+                startTime = null;
+                endTime = null;
+                $screen.classList.replace('now', 'waiting');
+                $screen.textContent = '클릭해서 시작하세요';
             }
         });
     </script>

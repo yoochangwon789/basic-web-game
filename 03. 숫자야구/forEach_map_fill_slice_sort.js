@@ -72,6 +72,10 @@ console.log(arr.slice(5, -1));
 console.log(arr.slice(-5, -1));
 console.log(arr.slice(-5));
 
+// slice 는 배열의 길이가 모자르더라도 상관없다.
+const sortArray = [3,1,2,5];
+console.log(sortArray.sort((a, b) => a - b).slice(0, 5));
+
 // sort 배열 정렬
 // 원본을 바꾼다.
 const arrSort = [5,8,9,3,2,4,1,7,6];
