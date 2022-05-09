@@ -57,7 +57,15 @@
         const checkWinner = (target) => {
             let rowIndex;
             let cellIndex;
+            // td 태그는 알아서 몇번째 cell 칸인지 알고있다.
+            const cellIndexTd = target.cellIndex;
+            // row index 는 td 의 부모 태그 tr 이 가지고 있다.
+            // 부모 태그의 접근하려면 parentNode 을 사용하면 된다.
+            const rowIndexTr = target.parentNode.rowIndex;
 
+            console.log(cellIndexTd)
+            console.log(rowIndexTr)
+            
             rows.forEach((row, ri) => {
                 row.forEach((cell, ci) => {
                     if (cell === target) {
