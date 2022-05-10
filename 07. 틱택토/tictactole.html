@@ -131,23 +131,30 @@
             }
         }
 
-        let cnt = 0;
-        const callback = (event) => {
-            // 칸에 글자가 있나?
+        const checkWinnerAndDraw = (target) => {
+            let draw = rows.flat().every((value) => value.textContent);
+            const hasWinner = checkWinner(target);
 
+            if (hasWinner) {
+                $result.textContent = `${turn}님이 승리!`;
+                $table.removeEventListener('click', callback);
+                return;
+            }
+
+            if (draw) {
+                $result.textContent = `무승부`;
+                $table.removeEventListener('click', callback);
+                return;
+            }
+        }
+
+        const callback = (event) => {
             if (event.target.textContent !== '') {
                 console.log('빈칸이 아닙니다.');
                 return;
             }
 
             event.target.textContent = turn;
-            cnt++;
-
-            if (checkWinner(event.target)) {
-                $result.textContent = `${turn}님이 승리!`;
-                $table.removeEventListener('click', callback);
-                return;
-            }
 
             // 내가짠 코드
             // tieCheck++;
@@ -157,22 +164,18 @@
             // }
 
             // 풀이
-            let draw = true;
+            // let draw = true;
             // every 함수를 이용한 무승부 결과 체크
-            let draw2 = rows.flat().every((value) => value.textContent);
-            rows.forEach((row) => {
-                row.forEach((cell) => {
-                    if (!cell.textContent) {
-                        // 값 이 비어있을 때
-                        draw = false;
-                    }
-                });
-            });
+            // rows.forEach((row) => {
+            //     row.forEach((cell) => {
+            //         if (!cell.textContent) {
+            //             // 값 이 비어있을 때
+            //             draw = false;
+            //         }
+            //     });
+            // });
 
-            if (draw2) {
-                $result.textContent = `무승부`;
-                return;
-            }
+            checkWinnerAndDraw(event.target);
 
             turn = turn === 'X' ? 'O' : 'X';
 
@@ -180,18 +183,9 @@
                 const emptyCells = rows.flat().filter((value) => !value.textContent);
                 const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
                 randomCell.textContent = 'X';
-                const hasWinner = checkWinner(randomCell);
 
-                if (hasWinner) {
-                    $result.textContent = `${turn}님이 승리!`;
-                    return;
-                }
+                checkWinnerAndDraw(randomCell);
 
-                if (draw2) {
-                    $result.textContent = `무승부`;
-                    return;
-                }
-                
                 turn = turn === 'X' ? 'O' : 'X';
             }
         };
