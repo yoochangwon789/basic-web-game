@@ -79,7 +79,7 @@
             if (
                 rows[rowIndex][0].textContent === turn &&
                 rows[rowIndex][1].textContent === turn &&
-                rows[rowIndex][2].textContent === turn 
+                rows[rowIndex][2].textContent === turn
             ) {
                 hasWinner = true;
             }
@@ -88,7 +88,7 @@
             if (
                 rows[0][cellIndex].textContent === turn &&
                 rows[1][cellIndex].textContent === turn &&
-                rows[2][cellIndex].textContent === turn 
+                rows[2][cellIndex].textContent === turn
             ) {
                 hasWinner = true;
             }
@@ -97,7 +97,7 @@
             if (
                 rows[0][0].textContent === turn &&
                 rows[1][1].textContent === turn &&
-                rows[2][2].textContent === turn 
+                rows[2][2].textContent === turn
             ) {
                 hasWinner = true;
             }
@@ -105,7 +105,7 @@
             if (
                 rows[0][2].textContent === turn &&
                 rows[1][1].textContent === turn &&
-                rows[2][0].textContent === turn 
+                rows[2][0].textContent === turn
             ) {
                 hasWinner = true;
             }
@@ -113,16 +113,35 @@
             return hasWinner;
         };
 
+        function computerTurn(event, turn) {
+            const cellIndexTd = event.target.cellIndex;
+            const rowIndexTr = event.target.parentNode.rowIndex;
+
+            while (true) {
+                let randomRow = Math.floor(Math.random() * rows.length);
+                let randomCell = Math.floor(Math.random() * rows.length);
+
+                if (
+                    (rows[rowIndexTr][cellIndexTd] !== rows[randomRow][randomCell]) &&
+                    rows[randomRow][randomCell].textContent === ''
+                ) {
+                    rows[randomRow][randomCell].textContent = turn;
+                    break;
+                }
+            }
+        }
+
+        let cnt = 0;
         const callback = (event) => {
             // 칸에 글자가 있나?
-            
+
             if (event.target.textContent !== '') {
                 console.log('빈칸이 아닙니다.');
                 return;
             }
-            
+
             event.target.textContent = turn;
-            // tieCheck++;
+            cnt++;
 
             if (checkWinner(event.target)) {
                 $result.textContent = `${turn}님이 승리!`;
@@ -131,6 +150,7 @@
             }
 
             // 내가짠 코드
+            // tieCheck++;
             // if (tieCheck > 8 && !checkWinner(event.target)) {
             //     $result.textContent = '무승부!';
             //     return;
@@ -145,7 +165,7 @@
                     if (!cell.textContent) {
                         // 값 이 비어있을 때
                         draw = false;
-                    } 
+                    }
                 });
             });
 
@@ -155,6 +175,25 @@
             }
 
             turn = turn === 'X' ? 'O' : 'X';
+
+            if (turn === 'X') {
+                const emptyCells = rows.flat().filter((value) => !value.textContent);
+                const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                randomCell.textContent = 'X';
+                const hasWinner = checkWinner(randomCell);
+
+                if (hasWinner) {
+                    $result.textContent = `${turn}님이 승리!`;
+                    return;
+                }
+
+                if (draw2) {
+                    $result.textContent = `무승부`;
+                    return;
+                }
+                
+                turn = turn === 'X' ? 'O' : 'X';
+            }
         };
 
         for (let i = 0; i < 3; i++) {
@@ -168,7 +207,7 @@
             rows.push(cells);
             $table.append($tr);
         }
-        console.log(rows);
+
         $table.addEventListener('click', callback);
         document.body.append($table);
         document.body.append($result);
