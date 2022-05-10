@@ -23,72 +23,33 @@
 </head>
 
 <body>
-    <!-- <table>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table> -->
     <script>
         const $table = document.createElement('table');
         const $result = document.createElement('div');
         const rows = [];
         let turn = 'O';
-        // let tieCheck = 0;
 
-        // [
-        //  [td, td, td],
-        //  [td, td, td],
-        //  [td, td, td],
-        // ]
         const checkWinner = (target) => {
-            let rowIndex;
-            let cellIndex;
-            // td 태그는 알아서 몇번째 cell 칸인지 알고있다.
             const cellIndexTd = target.cellIndex;
-            // row index 는 td 의 부모 태그 tr 이 가지고 있다.
-            // 부모 태그의 접근하려면 parentNode 을 사용하면 된다.
             const rowIndexTr = target.parentNode.rowIndex;
-
-            rows.forEach((row, ri) => {
-                row.forEach((cell, ci) => {
-                    if (cell === target) {
-                        rowIndex = ri;
-                        cellIndex = ci;
-                    }
-                });
-            });
 
             // 세 칸 다 채워졌나?
             let hasWinner = false;
 
             // 가로줄 검사
             if (
-                rows[rowIndex][0].textContent === turn &&
-                rows[rowIndex][1].textContent === turn &&
-                rows[rowIndex][2].textContent === turn
+                rows[rowIndexTr][0].textContent === turn &&
+                rows[rowIndexTr][1].textContent === turn &&
+                rows[rowIndexTr][2].textContent === turn
             ) {
                 hasWinner = true;
             }
 
             // 세로줄 검사
             if (
-                rows[0][cellIndex].textContent === turn &&
-                rows[1][cellIndex].textContent === turn &&
-                rows[2][cellIndex].textContent === turn
+                rows[0][cellIndexTd].textContent === turn &&
+                rows[1][cellIndexTd].textContent === turn &&
+                rows[2][cellIndexTd].textContent === turn
             ) {
                 hasWinner = true;
             }
@@ -160,25 +121,6 @@
             }
 
             event.target.textContent = turn;
-
-            // 내가짠 코드
-            // tieCheck++;
-            // if (tieCheck > 8 && !checkWinner(event.target)) {
-            //     $result.textContent = '무승부!';
-            //     return;
-            // }
-
-            // 풀이
-            // let draw = true;
-            // every 함수를 이용한 무승부 결과 체크
-            // rows.forEach((row) => {
-            //     row.forEach((cell) => {
-            //         if (!cell.textContent) {
-            //             // 값 이 비어있을 때
-            //             draw = false;
-            //         }
-            //     });
-            // });
 
             checkWinnerAndDraw(event.target);
 
