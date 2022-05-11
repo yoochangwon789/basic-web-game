@@ -47,3 +47,21 @@ const array = [{ j: 'k' }, { l: 'm' }];
 const shallowCopy = [...array];
 console.log(array === shallowCopy);           // false
 console.log(array[0] === shallowCopy[0]);     // true
+
+// 깊은 복사의 여러가지 방법
+const a1 = 'b';
+const c1 = ['d', true, 1];
+const e1 = { g: 'h' };
+const i1 = [{ j: 'k' }, { l: 'm' }];
+const n1 = { o: { p: 'q'} };
+
+// 원시값으로만 되어있는 변수는 그냥 새로운 변수에 대입
+const a2 = a;
+// 배열의 원소가 모두 원시값이면 slice() 로 복사해도 된다. 원시값은 참조가 안되기 때문
+const c2 = c1.slice() // slice 를 쓰거나 [...c1] 처럼 복사하면 된다
+// 객체 안의 객체 가 없으니 ... 으로 시용하면 된다.
+const e2 = {...e1};
+// 배열안의 객체가 있으므로 강한 복사를 해야함
+const i2 = JSON.parse(JSON.stringify(i1));
+// 객체안의 객체가 있으므로 강한 복사
+const n2 = JSON.parse(JSON.stringify(n1));
