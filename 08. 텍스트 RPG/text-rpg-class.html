@@ -104,6 +104,17 @@
 
                 if (input === '1') {
                     this.changeScreen('battle');
+                    const randomIndex = Math.floor(Math.random() * this.monsterList.length);
+                    const randomMonster = this.monsterList[randomIndex];
+                    this.monster = new Monster(
+                        this,
+                        randomMonster.name,
+                        randomMonster.hp,
+                        randomMonster.att,
+                        randomMonster.xp,
+                    );
+                    this.updateMonsterStat();
+                    this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다.`);
                 } else if (input === '2') {
 
                 } else if (input === '3') {
@@ -116,6 +127,12 @@
                 const input = event.target['battle-input'].value;
 
                 if (input === '1') {
+                    const { hero, monster } = this;
+                    hero.attack(monster);
+                    monster.attack(hero);
+                    this.showMessage(`${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`);
+                    this.updateHeroStat();
+                    this.updateMonsterStat();
 
                 } else if (input === '2') {
 
@@ -141,6 +158,24 @@
                 $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
                 $heroXP.textContent = `XP: ${hero.xp}/${15 * hero.lev}`;
                 $heroAtt.textContent = `ATT: ${hero.att}`;
+            }
+
+            updateMonsterStat() {
+                const { monster } = this;
+                if (monster === null) {
+                    $monsterName.textContent = '';
+                    $monsterHp.textContent = '';
+                    $monsterAtt.textContent = '';
+                    return;
+                }
+
+                $monsterName.textContent = monster.name;
+                $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
+                $monsterAtt.textContent = `ATT: ${monster.att}`;
+            }
+
+            showMessage(text) {
+                $message.textContent = text;
             }
         }
 
