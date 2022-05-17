@@ -149,6 +149,9 @@
                 } else if (input === '2') {     // 회복
                     this.heroHeal();
                 } else if (input === '3') {     // 도망
+                    this.showMessage(' ');
+                    this.monster = null;
+                    this.updateMonsterStat();
                     this.changeScreen('game');
                 }
             }
