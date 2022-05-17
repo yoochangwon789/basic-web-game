@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>텍스트 RPG 셀프체크</title>
 </head>
+
 <body>
     <form id="start-screen">
         <input id="name-input" placeholder="주인공 이름을 입력하세요!">
@@ -113,9 +115,9 @@
                     );
                     this.updateMonsterStat();
                     this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다.`);
-                } else if (input === '2') {
-
-                } else if (input === '3') {
+                } else if (input === '2') {     // 휴식
+                    this.rest();
+                } else if (input === '3') {     // 종료
                     this.quit();
                 }
             }
@@ -145,7 +147,7 @@
                     this.updateMonsterStat();
 
                 } else if (input === '2') {     // 회복
-
+                    this.heroHeal();
                 } else if (input === '3') {     // 도망
                     this.changeScreen('game');
                 }
@@ -175,6 +177,7 @@
                 this.monster = null;
                 this.updateHeroStat();
                 this.updateMonsterStat();
+                this.showMessage('');
                 $gameMenu.removeEventListener('submit', this.onGameMenuInput);
                 $battleMenu.removeEventListener('submit', this.onBattleMenuInput);
                 this.changeScreen('start');
@@ -197,6 +200,32 @@
 
             showMessage(text) {
                 $message.textContent = text;
+            }
+
+            rest() {
+                const { hero } = this;
+                if (hero.hp < hero.maxHp) {
+                    hero.hp = hero.maxHp;
+
+                    $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+                    this.showMessage(`모든 hp 가 회복되었습니다.`);
+                }
+
+                this.showMessage(`모든 hp 가 회복되었습니다.`);
+            }
+
+            heroHeal() {
+                const { hero, monster } = this;
+
+                if (hero.hp + 20 - monster.att > hero.maxHp) {
+                    hero.hp = hero.maxHp;
+                    $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+                    this.showMessage(`HP : 20 회복, ${monster.att}의 데미지를 받았다.`);
+                } else if (hero.hp < hero.maxHp) {
+                    hero.heal(monster);
+                    $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+                    this.showMessage(`HP : 20 회복, ${monster.att}의 데미지를 받았다.`);
+                }
             }
         }
 
@@ -254,4 +283,5 @@
         });
     </script>
 </body>
+
 </html>
