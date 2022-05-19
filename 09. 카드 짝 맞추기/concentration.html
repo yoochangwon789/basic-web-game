@@ -59,6 +59,8 @@
         const colors = ['red', 'orange', 'yellow', 'green', 'white', 'pink'];
         let colorCopy = colors.concat(colors);
         let shuffled = [];
+        let clicked = [];
+        let complated = [];
 
         function shuffle() {
             // 피셔-예이츠 셔플
@@ -88,10 +90,45 @@
             return card;
         }
 
+        function onClickCard() {
+            this.classList.toggle('flipped');
+            clicked.push(this);
+
+            // 카드가 2개 채워질 때까지 검사
+            if (clicked.length !== 2) {
+                return;
+            }
+
+            // 카드의 색깔이 맞는지 판별
+            const firstBackColor = clicked[0].querySelector('.card-back').style.backgroundColor;
+            const secondBackColor = clicked[1].querySelector('.card-back').style.backgroundColor;
+            if (firstBackColor === secondBackColor) {
+                // 맞을 경우 complated 배열의 추가
+                complated.push(clicked[0]);
+                complated.push(clicked[1]);
+                // complated = complated.concat(clicked);
+                clicked = [];
+
+                if (complated.length !== total) {
+                    return;
+                }
+                alert('축하합니다!');
+                return;
+            }
+
+            // 틀렸으면 다시 뒤집어 놓고 clicked 초기화
+            setTimeout(() => {
+                clicked[0].classList.remove('flipped');
+                clicked[1].classList.remove('flipped');
+                clicked = [];
+            }, 500);
+        }
+
         function startGame() {
             shuffle();
             for (let i = 0; i < total; i++) {
                 const card = createCard(i);
+                card.addEventListener('click', onClickCard);
                 $wrapper.appendChild(card);
             }
 
