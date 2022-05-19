@@ -112,7 +112,10 @@
                 if (complated.length !== total) {
                     return;
                 }
-                alert('축하합니다!');
+                setTimeout(() => {
+                    alert('축하합니다!');
+                    resetGame();
+                }, 1000);
                 return;
             }
 
@@ -146,6 +149,14 @@
         }
 
         startGame();
+
+        function resetGame() {
+            $wrapper.innerHTML = '';
+            colorCopy = colors.concat(colors);
+            shuffled = [];
+            complated = [];
+            startGame();
+        }
     </script>
 </body>
 
