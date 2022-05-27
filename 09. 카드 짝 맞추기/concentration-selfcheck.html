@@ -61,7 +61,6 @@
         let shuffled = [];
         let clicked = [];
         let complated = [];
-        let clickable = false;
 
         function shuffle() {
             // 피셔-예이츠 셔플
@@ -91,14 +90,7 @@
             return card;
         }
 
-        // clicked = [2, 5, 8, 9];
-        // 태스크 큐 : 
-        // 백 : addEventListener(12), setTimeout500, setTimeout500, setTimeout500
         function onClickCard() {
-            if (!clickable || complated.includes(this) || clicked[0] === this) {
-                return;
-            }
-
             this.classList.toggle('flipped');
             clicked.push(this);
 
@@ -127,18 +119,15 @@
                 return;
             }
 
-            clickable = false;
             // 틀렸으면 다시 뒤집어 놓고 clicked 초기화
             setTimeout(() => {
                 clicked[0].classList.remove('flipped');
                 clicked[1].classList.remove('flipped');
                 clicked = [];
-                clickable = true;
             }, 500);
         }
 
         function startGame() {
-            clickable = false;
             shuffle();
 
             for (let i = 0; i < total; i++) {
@@ -147,19 +136,17 @@
                 $wrapper.appendChild(card);
             }
             
-            // 키드 초반 공개
+
             document.querySelectorAll('.card').forEach((card, index) => {
                 setTimeout(() => {
                     card.classList.add('flipped');
                 }, 1000 + 100 * index);
             });
 
-            // 카드 감추기
             setTimeout(() => {
                 document.querySelectorAll('.card').forEach((card) => {
                     card.classList.remove('flipped');
                 });
-                clickable = true;
             }, 5000);
         }
 
